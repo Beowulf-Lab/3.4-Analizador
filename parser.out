@@ -1,0 +1,441 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> RESERVED IDENTIFIER LPAREN RPAREN LBRACE block RBRACE
+Rule 2     block -> statement block
+Rule 3     block -> statement
+Rule 4     declaration -> RESERVED identifier_list SEMICOLON
+Rule 5     read_statement -> RESERVED VARIABLE SEMICOLON
+Rule 6     printf_statement -> RESERVED LPAREN STRING RPAREN SEMICOLON
+Rule 7     end_statement -> RESERVED SEMICOLON
+Rule 8     assignment_statement -> VARIABLE EQUAL expression SEMICOLON
+Rule 9     expression -> VARIABLE PLUS VARIABLE
+Rule 10    expression -> NUMBER PLUS NUMBER
+Rule 11    expression -> VARIABLE PLUS NUMBER
+Rule 12    expression -> NUMBER PLUS VARIABLE
+Rule 13    identifier_list -> VARIABLE
+Rule 14    identifier_list -> VARIABLE COMMA identifier_list
+Rule 15    statement -> declaration
+Rule 16    statement -> read_statement
+Rule 17    statement -> printf_statement
+Rule 18    statement -> end_statement
+Rule 19    statement -> assignment_statement
+
+Terminals, with rules where they appear
+
+COMMA                : 14
+EQUAL                : 8
+IDENTIFIER           : 1
+LBRACE               : 1
+LPAREN               : 1 6
+NUMBER               : 10 10 11 12
+PLUS                 : 9 10 11 12
+RBRACE               : 1
+RESERVED             : 1 4 5 6 7
+RPAREN               : 1 6
+SEMICOLON            : 4 5 6 7 8
+STRING               : 6
+VARIABLE             : 5 8 9 9 11 12 13 14
+error                : 
+
+Nonterminals, with rules where they appear
+
+assignment_statement : 19
+block                : 1 2
+declaration          : 15
+end_statement        : 18
+expression           : 8
+identifier_list      : 4 14
+printf_statement     : 17
+program              : 0
+read_statement       : 16
+statement            : 2 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . RESERVED IDENTIFIER LPAREN RPAREN LBRACE block RBRACE
+
+    RESERVED        shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> RESERVED . IDENTIFIER LPAREN RPAREN LBRACE block RBRACE
+
+    IDENTIFIER      shift and go to state 3
+
+
+state 3
+
+    (1) program -> RESERVED IDENTIFIER . LPAREN RPAREN LBRACE block RBRACE
+
+    LPAREN          shift and go to state 4
+
+
+state 4
+
+    (1) program -> RESERVED IDENTIFIER LPAREN . RPAREN LBRACE block RBRACE
+
+    RPAREN          shift and go to state 5
+
+
+state 5
+
+    (1) program -> RESERVED IDENTIFIER LPAREN RPAREN . LBRACE block RBRACE
+
+    LBRACE          shift and go to state 6
+
+
+state 6
+
+    (1) program -> RESERVED IDENTIFIER LPAREN RPAREN LBRACE . block RBRACE
+    (2) block -> . statement block
+    (3) block -> . statement
+    (15) statement -> . declaration
+    (16) statement -> . read_statement
+    (17) statement -> . printf_statement
+    (18) statement -> . end_statement
+    (19) statement -> . assignment_statement
+    (4) declaration -> . RESERVED identifier_list SEMICOLON
+    (5) read_statement -> . RESERVED VARIABLE SEMICOLON
+    (6) printf_statement -> . RESERVED LPAREN STRING RPAREN SEMICOLON
+    (7) end_statement -> . RESERVED SEMICOLON
+    (8) assignment_statement -> . VARIABLE EQUAL expression SEMICOLON
+
+    RESERVED        shift and go to state 7
+    VARIABLE        shift and go to state 15
+
+    block                          shift and go to state 8
+    statement                      shift and go to state 9
+    declaration                    shift and go to state 10
+    read_statement                 shift and go to state 11
+    printf_statement               shift and go to state 12
+    end_statement                  shift and go to state 13
+    assignment_statement           shift and go to state 14
+
+state 7
+
+    (4) declaration -> RESERVED . identifier_list SEMICOLON
+    (5) read_statement -> RESERVED . VARIABLE SEMICOLON
+    (6) printf_statement -> RESERVED . LPAREN STRING RPAREN SEMICOLON
+    (7) end_statement -> RESERVED . SEMICOLON
+    (13) identifier_list -> . VARIABLE
+    (14) identifier_list -> . VARIABLE COMMA identifier_list
+
+    VARIABLE        shift and go to state 18
+    LPAREN          shift and go to state 19
+    SEMICOLON       shift and go to state 17
+
+    identifier_list                shift and go to state 16
+
+state 8
+
+    (1) program -> RESERVED IDENTIFIER LPAREN RPAREN LBRACE block . RBRACE
+
+    RBRACE          shift and go to state 20
+
+
+state 9
+
+    (2) block -> statement . block
+    (3) block -> statement .
+    (2) block -> . statement block
+    (3) block -> . statement
+    (15) statement -> . declaration
+    (16) statement -> . read_statement
+    (17) statement -> . printf_statement
+    (18) statement -> . end_statement
+    (19) statement -> . assignment_statement
+    (4) declaration -> . RESERVED identifier_list SEMICOLON
+    (5) read_statement -> . RESERVED VARIABLE SEMICOLON
+    (6) printf_statement -> . RESERVED LPAREN STRING RPAREN SEMICOLON
+    (7) end_statement -> . RESERVED SEMICOLON
+    (8) assignment_statement -> . VARIABLE EQUAL expression SEMICOLON
+
+    RBRACE          reduce using rule 3 (block -> statement .)
+    RESERVED        shift and go to state 7
+    VARIABLE        shift and go to state 15
+
+    statement                      shift and go to state 9
+    block                          shift and go to state 21
+    declaration                    shift and go to state 10
+    read_statement                 shift and go to state 11
+    printf_statement               shift and go to state 12
+    end_statement                  shift and go to state 13
+    assignment_statement           shift and go to state 14
+
+state 10
+
+    (15) statement -> declaration .
+
+    RESERVED        reduce using rule 15 (statement -> declaration .)
+    VARIABLE        reduce using rule 15 (statement -> declaration .)
+    RBRACE          reduce using rule 15 (statement -> declaration .)
+
+
+state 11
+
+    (16) statement -> read_statement .
+
+    RESERVED        reduce using rule 16 (statement -> read_statement .)
+    VARIABLE        reduce using rule 16 (statement -> read_statement .)
+    RBRACE          reduce using rule 16 (statement -> read_statement .)
+
+
+state 12
+
+    (17) statement -> printf_statement .
+
+    RESERVED        reduce using rule 17 (statement -> printf_statement .)
+    VARIABLE        reduce using rule 17 (statement -> printf_statement .)
+    RBRACE          reduce using rule 17 (statement -> printf_statement .)
+
+
+state 13
+
+    (18) statement -> end_statement .
+
+    RESERVED        reduce using rule 18 (statement -> end_statement .)
+    VARIABLE        reduce using rule 18 (statement -> end_statement .)
+    RBRACE          reduce using rule 18 (statement -> end_statement .)
+
+
+state 14
+
+    (19) statement -> assignment_statement .
+
+    RESERVED        reduce using rule 19 (statement -> assignment_statement .)
+    VARIABLE        reduce using rule 19 (statement -> assignment_statement .)
+    RBRACE          reduce using rule 19 (statement -> assignment_statement .)
+
+
+state 15
+
+    (8) assignment_statement -> VARIABLE . EQUAL expression SEMICOLON
+
+    EQUAL           shift and go to state 22
+
+
+state 16
+
+    (4) declaration -> RESERVED identifier_list . SEMICOLON
+
+    SEMICOLON       shift and go to state 23
+
+
+state 17
+
+    (7) end_statement -> RESERVED SEMICOLON .
+
+    RESERVED        reduce using rule 7 (end_statement -> RESERVED SEMICOLON .)
+    VARIABLE        reduce using rule 7 (end_statement -> RESERVED SEMICOLON .)
+    RBRACE          reduce using rule 7 (end_statement -> RESERVED SEMICOLON .)
+
+
+state 18
+
+    (5) read_statement -> RESERVED VARIABLE . SEMICOLON
+    (13) identifier_list -> VARIABLE .
+    (14) identifier_list -> VARIABLE . COMMA identifier_list
+
+  ! shift/reduce conflict for SEMICOLON resolved as shift
+    SEMICOLON       shift and go to state 24
+    COMMA           shift and go to state 25
+
+  ! SEMICOLON       [ reduce using rule 13 (identifier_list -> VARIABLE .) ]
+
+
+state 19
+
+    (6) printf_statement -> RESERVED LPAREN . STRING RPAREN SEMICOLON
+
+    STRING          shift and go to state 26
+
+
+state 20
+
+    (1) program -> RESERVED IDENTIFIER LPAREN RPAREN LBRACE block RBRACE .
+
+    $end            reduce using rule 1 (program -> RESERVED IDENTIFIER LPAREN RPAREN LBRACE block RBRACE .)
+
+
+state 21
+
+    (2) block -> statement block .
+
+    RBRACE          reduce using rule 2 (block -> statement block .)
+
+
+state 22
+
+    (8) assignment_statement -> VARIABLE EQUAL . expression SEMICOLON
+    (9) expression -> . VARIABLE PLUS VARIABLE
+    (10) expression -> . NUMBER PLUS NUMBER
+    (11) expression -> . VARIABLE PLUS NUMBER
+    (12) expression -> . NUMBER PLUS VARIABLE
+
+    VARIABLE        shift and go to state 27
+    NUMBER          shift and go to state 29
+
+    expression                     shift and go to state 28
+
+state 23
+
+    (4) declaration -> RESERVED identifier_list SEMICOLON .
+
+    RESERVED        reduce using rule 4 (declaration -> RESERVED identifier_list SEMICOLON .)
+    VARIABLE        reduce using rule 4 (declaration -> RESERVED identifier_list SEMICOLON .)
+    RBRACE          reduce using rule 4 (declaration -> RESERVED identifier_list SEMICOLON .)
+
+
+state 24
+
+    (5) read_statement -> RESERVED VARIABLE SEMICOLON .
+
+    RESERVED        reduce using rule 5 (read_statement -> RESERVED VARIABLE SEMICOLON .)
+    VARIABLE        reduce using rule 5 (read_statement -> RESERVED VARIABLE SEMICOLON .)
+    RBRACE          reduce using rule 5 (read_statement -> RESERVED VARIABLE SEMICOLON .)
+
+
+state 25
+
+    (14) identifier_list -> VARIABLE COMMA . identifier_list
+    (13) identifier_list -> . VARIABLE
+    (14) identifier_list -> . VARIABLE COMMA identifier_list
+
+    VARIABLE        shift and go to state 30
+
+    identifier_list                shift and go to state 31
+
+state 26
+
+    (6) printf_statement -> RESERVED LPAREN STRING . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 32
+
+
+state 27
+
+    (9) expression -> VARIABLE . PLUS VARIABLE
+    (11) expression -> VARIABLE . PLUS NUMBER
+
+    PLUS            shift and go to state 33
+
+
+state 28
+
+    (8) assignment_statement -> VARIABLE EQUAL expression . SEMICOLON
+
+    SEMICOLON       shift and go to state 34
+
+
+state 29
+
+    (10) expression -> NUMBER . PLUS NUMBER
+    (12) expression -> NUMBER . PLUS VARIABLE
+
+    PLUS            shift and go to state 35
+
+
+state 30
+
+    (13) identifier_list -> VARIABLE .
+    (14) identifier_list -> VARIABLE . COMMA identifier_list
+
+    SEMICOLON       reduce using rule 13 (identifier_list -> VARIABLE .)
+    COMMA           shift and go to state 25
+
+
+state 31
+
+    (14) identifier_list -> VARIABLE COMMA identifier_list .
+
+    SEMICOLON       reduce using rule 14 (identifier_list -> VARIABLE COMMA identifier_list .)
+
+
+state 32
+
+    (6) printf_statement -> RESERVED LPAREN STRING RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 36
+
+
+state 33
+
+    (9) expression -> VARIABLE PLUS . VARIABLE
+    (11) expression -> VARIABLE PLUS . NUMBER
+
+    VARIABLE        shift and go to state 37
+    NUMBER          shift and go to state 38
+
+
+state 34
+
+    (8) assignment_statement -> VARIABLE EQUAL expression SEMICOLON .
+
+    RESERVED        reduce using rule 8 (assignment_statement -> VARIABLE EQUAL expression SEMICOLON .)
+    VARIABLE        reduce using rule 8 (assignment_statement -> VARIABLE EQUAL expression SEMICOLON .)
+    RBRACE          reduce using rule 8 (assignment_statement -> VARIABLE EQUAL expression SEMICOLON .)
+
+
+state 35
+
+    (10) expression -> NUMBER PLUS . NUMBER
+    (12) expression -> NUMBER PLUS . VARIABLE
+
+    NUMBER          shift and go to state 39
+    VARIABLE        shift and go to state 40
+
+
+state 36
+
+    (6) printf_statement -> RESERVED LPAREN STRING RPAREN SEMICOLON .
+
+    RESERVED        reduce using rule 6 (printf_statement -> RESERVED LPAREN STRING RPAREN SEMICOLON .)
+    VARIABLE        reduce using rule 6 (printf_statement -> RESERVED LPAREN STRING RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 6 (printf_statement -> RESERVED LPAREN STRING RPAREN SEMICOLON .)
+
+
+state 37
+
+    (9) expression -> VARIABLE PLUS VARIABLE .
+
+    SEMICOLON       reduce using rule 9 (expression -> VARIABLE PLUS VARIABLE .)
+
+
+state 38
+
+    (11) expression -> VARIABLE PLUS NUMBER .
+
+    SEMICOLON       reduce using rule 11 (expression -> VARIABLE PLUS NUMBER .)
+
+
+state 39
+
+    (10) expression -> NUMBER PLUS NUMBER .
+
+    SEMICOLON       reduce using rule 10 (expression -> NUMBER PLUS NUMBER .)
+
+
+state 40
+
+    (12) expression -> NUMBER PLUS VARIABLE .
+
+    SEMICOLON       reduce using rule 12 (expression -> NUMBER PLUS VARIABLE .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for SEMICOLON in state 18 resolved as shift

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi primer analizador web</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .tables-container {
+            display: flex; /* Para alinear las tablas horizontalmente */
+            gap: 20px; /* Espacio entre las tablas */
+        }
+        .token-table {
+            display: none; /* Ocultar la tabla de tokens por defecto */
+            width: 50%; /* Ajustar el ancho para que ocupe la mitad del contenedor */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Analizador Léxico y Sintáctico</h2>
+        <!-- Mensaje de error si hay errores en el análisis -->
+        {% if error_message %}
+        <div class="error-message" style="color: red;">
+            <strong>Error:</strong> {{ error_message }}
+        </div>
+        <br>
+        {% endif %}
+        <!-- Mensaje de éxito si el análisis es correcto -->
+        {% if success_message %}
+        <div class="success-message" style="color: green;">
+            <strong>Excelente:</strong> {{ success_message }}
+        </div>
+        <br>
+        {% endif %}
+        <!-- Formulario para ingresar el código -->
+        <form method="post" aria-label="Formulario de análisis">
+            <textarea id="codigo" name="text" rows="10" cols="50" placeholder="Escribe tu código aquí..." required>{{ text }}</textarea>
+            <br><br>
+            <input type="submit" value="Analizar">
+            <input type="button" value="Borrar" onclick="clearTextarea()">
+            <input type="button" value="Tabla de tokens" onclick="mostrarTablaTokens()">
+        </form>
+        <br><br>
+
+        <!-- Sección de análisis léxico -->
+        <section>
+            <h2>Analizador Léxico</h2>
+            <div class="tables-container">
+                {% if line_info %}
+                <div class="line-info-table">
+                    <table id="tabla-lexico">
+                        <thead>
+                            <tr>
+                                <th>Línea</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for line, tipo, valor in line_info %}
+                            <tr>
+                                <td>{{ line }}</td>
+                                <td>{{ tipo }}</td>
+                                <td>{{ valor }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="token-table">
+                    <h2>Tabla de Tokens</h2>
+                    <table id="tabla-tokens">
+                        <thead>
+                            <tr>
+                                <th>Token</th>
+                                <th>PR</th>
+                                <th>ID</th>
+                                <th>V</th>
+                                <th>N</th>
+                                <th>S</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for line, tipo, valor in line_info %}
+                            <tr>
+                                <td>{{ valor }}</td>
+                                <td>{{ 'X' if tipo == 'Palabra Reservada' else '' }}</td>
+                                <td>{{ 'X' if tipo == 'Identificador' and valor != 'a' and valor != 'b' and valor != 'c' else '' }}</td>
+                                <td>{{ 'X' if tipo == 'Variable' else '' }}</td> <!-- Variable como Identificador -->
+                                <td>{{ 'X' if tipo == 'Número' else '' }}</td>
+                                <td>{{ 'X' if tipo in ['Llave Izquierda', 'Llave Derecha', 'Paréntesis Izquierdo', 'Paréntesis Derecho', 'Punto y Coma', 'Igual', 'Más', 'Coma'] else '' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Sumarización de totales -->
+        {% if line_info %}
+        <div class="Resultado">
+            <h3>Resultado</h3>
+            <p>Palabras Reservadas: {{ line_info | selectattr('1', 'equalto', 'Palabra Reservada') | list | length }}</p>
+            <p>Identificadores: {{ line_info | selectattr('1', 'equalto', 'Identificador') | list | length }}</p>
+            <p>Variables: {{ line_info | selectattr('1', 'equalto', 'Variable') | list | length }}</p> <!-- Variable como Identificador -->
+            <p>Números: {{ line_info | selectattr('1', 'equalto', 'Número') | list | length }}</p>
+            <p>Símbolos: {{ line_info | selectattr('1', 'in', ['Llave Izquierda', 'Llave Derecha', 'Paréntesis Izquierdo', 'Paréntesis Derecho', 'Punto y Coma', 'Igual', 'Más', 'Coma']) | list | length }}</p>
+        </div>
+        {% endif %}
+
+        <script>
+            function mostrarTablaTokens() {
+                const tokenTableContainer = document.querySelector('.token-table');
+                tokenTableContainer.style.display = tokenTableContainer.style.display === 'none' ? 'block' : 'none';
+            }
+
+            function clearTextarea() {
+                document.getElementById('codigo').value = '';
+            }
+        </script>
+
+    </div>
+</body>
+</html>
